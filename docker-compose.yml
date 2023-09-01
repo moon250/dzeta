@@ -27,7 +27,7 @@ services:
         image: mysql:latest
         environment:
             MYSQL_ROOT_PASSWORD: root
-            MYSQL_DATABASE: monody
+            MYSQL_DATABASE: dzeta
             TZ: Europe/Paris
         volumes:
             - db-data:/var/lib/mysql
