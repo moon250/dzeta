@@ -1,0 +1,3 @@
+<?php
+
+// Might not need console commands ...
