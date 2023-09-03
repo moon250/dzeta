@@ -43,6 +43,12 @@ services:
             - "8888:8080"
         depends_on:
             - db
+
+    redis:
+        restart: unless-stopped
+        image: redis:alpine
+        ports:
+            - "6379:6379"
 volumes:
     db-data:
         driver: local
