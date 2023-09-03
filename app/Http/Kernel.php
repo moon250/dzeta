@@ -44,6 +44,7 @@ class Kernel extends HttpKernel
         ValidatePostSize::class,
         TrimStrings::class,
         ConvertEmptyStringsToNull::class,
+        ForceJsonResponse::class,
     ];
 
     /**
@@ -64,7 +65,6 @@ class Kernel extends HttpKernel
         'api' => [
             ThrottleRequests::class . ':api',
             SubstituteBindings::class,
-            ForceJsonResponse::class,
         ],
     ];
 
