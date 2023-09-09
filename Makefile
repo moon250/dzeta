@@ -6,10 +6,6 @@ fix:
 migrate:
 	php artisan migrate:fresh
 
-.PHONY: seed
-seed: migrate
-	php artisan db:seed
-
 .PHONY: lint
 lint:
 	vendor/bin/phpstan analyse --memory-limit=2G

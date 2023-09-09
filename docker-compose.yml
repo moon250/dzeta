@@ -41,7 +41,7 @@ services:
             ADMINER_DEFAULT_SERVER: db
         ports:
             - "8888:8080"
-        depends_on:
+        links:
             - db
 
     redis:
