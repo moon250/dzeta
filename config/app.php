@@ -16,7 +16,7 @@ return [
 
     'asset_url' => env('ASSET_URL'),
 
-    'timezone' => 'UTC',
+    'timezone' => 'Europe/Paris',
 
     'locale' => 'en',
 
@@ -37,6 +37,7 @@ return [
         /*
          * Package Service Providers...
          */
+        \SocialiteProviders\Manager\ServiceProvider::class,
 
         /*
          * Application Service Providers...

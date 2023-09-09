@@ -11,4 +11,10 @@ return [
     'github' => [
         'token' => env('GITHUB_ACCESS_TOKEN'),
     ],
+
+    'spotify' => [
+        'client_id' => env('SPOTIFY_CLIENT_ID'),
+        'client_secret' => env('SPOTIFY_CLIENT_SECRET'),
+        'redirect' => env('SPOTIFY_REDIRECT_URI'),
+    ],
 ];

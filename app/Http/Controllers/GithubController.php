@@ -20,11 +20,11 @@ class GithubController extends Controller
 
     public function commits(): JsonApiResponse
     {
-        if (Cache::has('commits')) {
-            $commits = Cache::get('commits');
+        if (Cache::has('github.commits')) {
+            $commits = Cache::get('github.commits');
         } else {
             $commits = $this->service->commits();
-            Cache::set('commits', $commits, 30 * 60);
+            Cache::set('github.commits', $commits, 30 * 60);
         }
 
         return new JsonApiResponse([
@@ -34,11 +34,11 @@ class GithubController extends Controller
 
     public function issues(): JsonApiResponse
     {
-        if (Cache::has('issues')) {
-            $issues = Cache::get('issues');
+        if (Cache::has('github.issues')) {
+            $issues = Cache::get('github.issues');
         } else {
             $issues = $this->service->issues();
-            Cache::set('issues', $issues, 30 * 60);
+            Cache::set('github.issues', $issues, 30 * 60);
         }
 
         return new JsonApiResponse([
@@ -48,11 +48,11 @@ class GithubController extends Controller
 
     public function pullRequests(): JsonApiResponse
     {
-        if (Cache::has('pullRequests')) {
-            $pullRequests = Cache::get('pullRequests');
+        if (Cache::has('github.pullRequests')) {
+            $pullRequests = Cache::get('github.pullRequests');
         } else {
             $pullRequests = $this->service->pullRequests();
-            Cache::set('pullRequests', $pullRequests, 30 * 60);
+            Cache::set('github.pullRequests', $pullRequests, 30 * 60);
         }
 
         return new JsonApiResponse([
@@ -62,11 +62,11 @@ class GithubController extends Controller
 
     public function starred(): JsonApiResponse
     {
-        if (Cache::has('starred')) {
-            $starred = Cache::get('starred');
+        if (Cache::has('github.starred')) {
+            $starred = Cache::get('github.starred');
         } else {
             $starred = $this->service->starred();
-            Cache::set('starred', $starred, 30 * 60);
+            Cache::set('github.starred', $starred, 30 * 60);
         }
 
         return new JsonApiResponse([

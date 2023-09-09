@@ -14,3 +14,13 @@ Route::group(['prefix' => 'github'], function () {
     Route::get('/pull-requests', 'GithubController@pullRequests');
     Route::get('/starred', 'GithubController@starred');
 });
+
+Route::group(['prefix' => 'oauth', 'middleware' => 'web'], function () {
+    Route::get('/spotify/link', 'Oauth\OauthSpotifyController@link');
+    Route::get('/spotify/check', 'Oauth\OauthSpotifyController@check');
+});
+
+Route::group(['prefix' => 'spotify'], function () {
+    Route::get('/', 'SpotifyController@index');
+    Route::get('/recently-played', 'SpotifyController@recentlyPlayed');
+});
