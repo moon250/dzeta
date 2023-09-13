@@ -9,19 +9,25 @@ use App\Services\SpotifyService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Carbon;
 use Laravel\Socialite\Facades\Socialite;
+use SocialiteProviders\Spotify\Provider;
 
 class OauthSpotifyController extends Controller
 {
     public function link(): RedirectResponse
     {
-        return Socialite::driver('spotify')
-            ->scopes(SpotifyService::ACCESS_TOKEN_SCOPES)
+        /** @var Provider $driver */
+        $driver = Socialite::driver('spotify');
+
+        return $driver->scopes(SpotifyService::ACCESS_TOKEN_SCOPES)
             ->redirect();
     }
 
     public function check(): RedirectResponse
     {
-        $user = Socialite::driver('spotify')->user();
+        /** @var Provider $driver */
+        $driver = Socialite::driver('spotify');
+
+        $user = $driver->user();
 
         OauthCredential::updateOrCreate(['service' => OauthService::Spotify->value], [
             'user_id' => $user->getId(),

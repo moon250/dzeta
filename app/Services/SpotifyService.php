@@ -29,14 +29,15 @@ final class SpotifyService
     {
         $credentials = OauthCredential::where('service', 'spotify')->get();
 
-        if (count($credentials) === 0) {
+        if ($credentials->count() === 0) {
             throw new AccessTokenException('Service spotify was not linked, access token is missing.');
         }
 
+        /** @var OauthCredential $credentials */
         $credentials = $credentials[0];
 
         if ($this->isExpired($credentials['expires_at'])) {
-            $this->refreshToken($credentials['refresh_token']);
+            return $this->refreshToken($credentials['refresh_token']);
         }
 
         return $credentials->access_token;
@@ -67,7 +68,14 @@ final class SpotifyService
             ->post(self::ACCESS_TOKEN_ENDPOINT, $data)
             ->json();
 
-        $stored = OauthCredential::where('service', 'spotify')->get()[0];
+        $stored = OauthCredential::where('service', 'spotify')->get();
+
+        if ($stored->count() === 0) {
+            throw new AccessTokenException('Service spotify was not linked, access token is missing.');
+        }
+
+        /** @var OauthCredential $stored */
+        $stored = $stored[0];
         $stored->access_token = $response['access_token'];
         $stored->expires_at = Carbon::now()->addSeconds(3600);
         $stored->update();
