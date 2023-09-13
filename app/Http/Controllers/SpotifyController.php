@@ -3,24 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Http\JsonApiResponse;
+use App\Services\CacheService;
 use App\Services\SpotifyService;
-use Illuminate\Support\Facades\Cache;
 
 class SpotifyController extends Controller
 {
-    public function __construct(
-        private readonly SpotifyService $service
-    ) {
+    private readonly CacheService $cache;
+
+    public function __construct()
+    {
+        $this->cache = new CacheService(SpotifyService::class);
     }
 
     public function recentlyPlayed(): JsonApiResponse
     {
-        if (Cache::has('spotify.recentlyPlayed')) {
-            $items = Cache::get('spotify.recentlyPlayed');
-        } else {
-            $items = $this->service->recentlyPlayed();
-            Cache::set('issues', $items, 30 * 60);
-        }
+        $items = $this->cache->manage('recentlyPlayed');
 
         return new JsonApiResponse([
             'items' => $items,

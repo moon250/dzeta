@@ -2,7 +2,8 @@
 
 namespace App\Services;
 
-use App\Exceptions\CacheServiceException;
+use App\Exceptions\Cache\InvalidMethodNameException;
+use App\Exceptions\Cache\InvalidServiceNameException;
 use Exception;
 use Illuminate\Support\Facades\Cache;
 use ReflectionClass;
@@ -35,7 +36,7 @@ readonly class CacheService
         }
 
         if (!$this->hasMethod($method)) {
-            throw new CacheServiceException("Method $method was not found on class $this->service");
+            throw new InvalidMethodNameException("Method $method was not found on class $this->service");
         }
 
         $data = $this->callServiceMethod($method);
@@ -67,8 +68,9 @@ readonly class CacheService
         // https://stackoverflow.com/a/4519756
         $name = preg_split('/(?=[A-Z])/', $service, flags: PREG_SPLIT_NO_EMPTY);
 
+        // Should not happen unless given service name is empty
         if ($name === false || count($name) === 0) {
-            throw new CacheServiceException("Could not find any valuable name in service's name ($service). Is it camelCase or PascalCase ?");
+            throw new InvalidServiceNameException("Could not find any valuable name in service's name ($service). Is it camelCase or PascalCase ?");
         }
 
         return mb_strtolower($name[0]);

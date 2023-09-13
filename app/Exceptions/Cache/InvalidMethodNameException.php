@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Exceptions;
+namespace App\Exceptions\Cache;
 
 use Exception;
 
-class CacheServiceException extends Exception
+class InvalidMethodNameException extends Exception
 {
     public function __construct(string $message = '')
     {

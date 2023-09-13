@@ -7,7 +7,7 @@ use App\Models\OauthCredential;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Http;
 
-final class SpotifyService
+class SpotifyService
 {
     public const ACCESS_TOKEN_ENDPOINT = 'https://accounts.spotify.com/api/token';
 
