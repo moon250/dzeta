@@ -30,8 +30,6 @@ class GithubControllerTest extends TestCase
 
     public function testIssuesAreCached()
     {
-        Cache::spy();
-
         $this->instance(
             GithubService::class,
             Mockery::mock(
@@ -44,15 +42,11 @@ class GithubControllerTest extends TestCase
 
         $this->getJson('/github/issues')->assertOk();
 
-        Cache::shouldHaveReceived('set')
-            ->once()
-            ->with('issues', 0, 30 * 60);
+        $this->assertTrue(Cache::has('github.issues'));
     }
 
     public function testPullRequestsAreCached()
     {
-        Cache::spy();
-
         $this->instance(
             GithubService::class,
             Mockery::mock(
@@ -65,15 +59,11 @@ class GithubControllerTest extends TestCase
 
         $this->getJson('/github/pull-requests')->assertOk();
 
-        Cache::shouldHaveReceived('set')
-            ->once()
-            ->with('pullRequests', 0, 30 * 60);
+        $this->assertTrue(Cache::has('github.pullRequests'));
     }
 
     public function testStarredAreCached()
     {
-        Cache::spy();
-
         $this->instance(
             GithubService::class,
             Mockery::mock(
@@ -86,15 +76,11 @@ class GithubControllerTest extends TestCase
 
         $this->getJson('/github/starred')->assertOk();
 
-        Cache::shouldHaveReceived('set')
-            ->once()
-            ->with('starred', 0, 30 * 60);
+        $this->assertTrue(Cache::has('github.starred'));
     }
 
-    public function testCommitsAreCache()
+    public function testCommitsAreCached()
     {
-        Cache::spy();
-
         $this->instance(
             GithubService::class,
             Mockery::mock(
@@ -107,8 +93,6 @@ class GithubControllerTest extends TestCase
 
         $this->getJson('/github/commits')->assertOk();
 
-        Cache::shouldHaveReceived('set')
-            ->once()
-            ->with('commits', 0, 30 * 60);
+        $this->assertTrue(Cache::has('github.commits'));
     }
 }
