@@ -17,12 +17,4 @@ enum Status: int
     case FORBIDDEN = 403;
     case NOT_FOUND = 404;
     case UNPROCESSABLE_ENTITY = 422;
-
-    public function statusify(): string
-    {
-        return match ($this) {
-            self::OK, self::CREATED, self::NO_CONTENT, self::MOVED_PERMANENTLY, self::TEMPORARY_REDIRECT, self::PERMANTENTELY_REDIRECT => 'success',
-            self::BAD_REQUEST, self::UNAUTHORIZED, self::FORBIDDEN, self::NOT_FOUND, self::UNPROCESSABLE_ENTITY => 'fail'
-        };
-    }
 }

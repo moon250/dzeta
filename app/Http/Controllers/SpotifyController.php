@@ -15,6 +15,11 @@ class SpotifyController extends Controller
         $this->cache = new CacheService(SpotifyService::class);
     }
 
+    public function index(): JsonApiResponse
+    {
+        return new JsonApiResponse($this->buildIndexResponse());
+    }
+
     public function recentlyPlayed(): JsonApiResponse
     {
         $items = $this->cache->manage('recentlyPlayed');
