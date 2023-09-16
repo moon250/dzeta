@@ -2,7 +2,11 @@
 
 namespace App\Exceptions;
 
+use App\Enums\Status;
+use App\Http\JsonApiResponse;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -26,5 +30,14 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+    }
+
+    public function render($request, Throwable $e): Response|JsonApiResponse
+    {
+        if ($e instanceof NotFoundHttpException) {
+            return new JsonApiResponse(['message' => 'Not found.'], Status::NOT_FOUND);
+        }
+
+        return parent::render($request, $e);
     }
 }
