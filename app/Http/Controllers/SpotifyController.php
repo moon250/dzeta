@@ -17,7 +17,7 @@ class SpotifyController extends Controller
 
     public function index(): JsonApiResponse
     {
-        return new JsonApiResponse($this->buildIndexResponse());
+        return $this->buildIndexResponse();
     }
 
     public function recentlyPlayed(): JsonApiResponse

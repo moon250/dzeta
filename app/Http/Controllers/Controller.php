@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\JsonApiResponse;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
@@ -34,7 +35,7 @@ class Controller extends BaseController
      *
      * @return array<string, string>
      */
-    public function buildIndexResponse(): array
+    public function buildIndexContent(): array
     {
         $router = app(Router::class);
         $uri = $router->getCurrentRoute()?->uri;
@@ -55,5 +56,10 @@ class Controller extends BaseController
         }
 
         return $response;
+    }
+
+    public function buildIndexResponse(): JsonApiResponse
+    {
+        return new JsonApiResponse($this->buildIndexContent());
     }
 }
