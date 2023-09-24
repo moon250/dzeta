@@ -14,7 +14,7 @@ class ControllerTest extends TestCase
     public function testListingUriEndpoints()
     {
         $controller = new Controller();
-        $response = $controller->buildIndexResponse();
+        $response = $controller->buildIndexContent();
 
         $this->assertNotContains(url('test'), $response);
 

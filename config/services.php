@@ -17,4 +17,9 @@ return [
         'client_secret' => env('SPOTIFY_CLIENT_SECRET'),
         'redirect' => env('SPOTIFY_REDIRECT_URI'),
     ],
+
+    'wakatime' => [
+        'username' => env('WAKATIME_USERNAME'),
+        'token' => env('WAKATIME_API_TOKEN'),
+    ],
 ];

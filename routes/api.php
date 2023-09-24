@@ -25,3 +25,10 @@ Route::group(['prefix' => 'spotify'], function () {
     Route::get('/', 'SpotifyController@index');
     Route::get('/recently-played', 'SpotifyController@recentlyPlayed');
 });
+
+Route::group(['prefix' => 'wakatime'], function () {
+    Route::get('/', 'WakatimeController@index');
+    Route::get('/weekly', 'WakatimeController@weekly');
+    Route::get('/yearly', 'WakatimeController@yearly');
+    Route::get('/all-time', 'WakatimeController@allTime');
+});
