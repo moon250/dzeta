@@ -3,14 +3,14 @@
 use App\Http\JsonApiResponse;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', fn () => new JsonApiResponse(['message' => 'ζ Alive !']));
+Route::get('/', 'HomeController@index');
+Route::get('/me', 'AboutMeController@index');
+Route::get('/ping', fn () => new JsonApiResponse(['message' => 'ζ Alive !']));
 
 Route::group(['prefix' => 'oauth', 'middleware' => 'web'], function () {
     Route::get('/spotify/link', 'Oauth\OauthSpotifyController@link');
     Route::get('/spotify/check', 'Oauth\OauthSpotifyController@check');
 });
-
-Route::get('/me', 'AboutMeController@index');
 
 Route::group(['prefix' => 'github'], function () {
     Route::get('/', 'GithubController@index');

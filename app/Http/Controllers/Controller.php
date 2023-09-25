@@ -15,18 +15,37 @@ class Controller extends BaseController
 
     /**
      * Returns the endpoints starting with the current endpoint
-     * For instance, in route github/, it will return all endpoints that starts with github/ (github/*)
+     * For instance, in route github/, it will return all endpoints that starts with github/ (github/*) in an array containing in the name as key, and the Route object as value
      *
-     * @return Route[]
+     * @return array<string, Route>
      */
-    private function getUriEndpoints(Router $router, string $uri): array
+    private function getUriSubEndpoints(Router $router, string $uri): array
     {
         $routes = $router->getRoutes();
 
-        return array_filter(
-            $routes->getRoutes(),
-            fn ($route) => explode('/', $route->uri)[0] === $uri
-        );
+        // Handle case for home endpoint
+        // Only retrieve index endpoints
+        if ($uri === '/') {
+            $routes = array_filter(
+                $routes->getRoutes(),
+                // Return all routes that are only indexes (only one depth), they are sort of subsets of base "/" route but were not traited as if in default case
+                // Ex: /github, /spotify
+                // Filtered : /github/commits, /spotify/...
+                fn (Route $route) => count(explode('/', $route->uri)) === 1
+            );
+
+            $names = array_map(fn (Route $endpoint) => $endpoint->uri, [...$routes]);
+        } else {
+            $routes = array_filter(
+                $routes->getRoutes(),
+                // Return all routes that are subsets of current endpoint
+                fn (Route $route) => explode('/', $route->uri)[0] === $uri
+            );
+
+            $names = array_map(fn (Route $endpoint) => last(explode('/', $endpoint->uri)), [...$routes]);
+        }
+
+        return array_combine($names, $routes);
     }
 
     /**
@@ -44,20 +63,24 @@ class Controller extends BaseController
             return [];
         }
 
-        $endpoints = $this->getUriEndpoints($router, $uri);
+        $endpoints = $this->getUriSubEndpoints($router, $uri);
         // Exclude current uri from the endpoints
         $endpoints = array_filter($endpoints, fn (Route $endpoint) => $endpoint->uri !== $uri);
 
         $response = [];
 
         foreach ($endpoints as $endpoint) {
-            $name = $endpoint->getName() ?? explode('/', $endpoint->uri)[1];
+            /** @var string $name getName() returns a string and the key of endpoint array is always a string */
+            $name = $endpoint->getName() ?? array_search($endpoint, $endpoints, true);
             $response[$name] = url($endpoint->uri);
         }
 
         return $response;
     }
 
+    /**
+     * @see buildIndexContent()
+     */
     public function buildIndexResponse(): JsonApiResponse
     {
         return new JsonApiResponse($this->buildIndexContent());
